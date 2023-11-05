@@ -5,12 +5,15 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
   providedIn: 'root'
 })
 export class AuthService {
+  static logout() {
+    localStorage.removeItem('user');
+  }
 
   constructor(public afs:AngularFirestore,public afAuth:AngularFireAuth) { }
   public singIn(email:string,password:string) {
     return this.afAuth.signInWithEmailAndPassword(email,password);
   }
-  public loggedIn():boolean {
+  static loggedIn():boolean {
     return !!localStorage.getItem('user');
   }
   public sendVerificationEmail() {
@@ -22,6 +25,7 @@ export class AuthService {
 
   public signUp(email:string,password:string) {
     this.afAuth.createUserWithEmailAndPassword(email,password).then((result:any)=>{
+      
       localStorage.setItem('user',JSON.stringify(result.user));
       this.sendVerificationEmail();
       return result.user;
