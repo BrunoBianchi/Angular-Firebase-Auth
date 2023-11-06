@@ -29,15 +29,26 @@ export class SignInComponent {
           this.profileForm.value['password']
         )
         .then((result: any) => {
-          localStorage.setItem('user', JSON.stringify(result.user));
-          return this.router.navigateByUrl('dashboard');
+          this.afs
+            .doc(`users/${result.user.uid}`)
+            .get()
+            .subscribe(async (user) => {
+              await localStorage.setItem(
+                'user',
+                JSON.stringify({
+                  uid: user.get('uid'),
+                  email: user.get('email'),
+                  name: user.get('name'),
+                  photoURL: user.get('photoURL'),
+                  emailVerified: user.get('emailVerified'),
+                })
+              );
+              return this.router.navigate(['dashboard']);
+            });
         })
         .catch((err: any) => {
           if (err) return (this.errorMsg = err.message);
         });
-        this.afAuth.authState.subscribe(  (user:any) => {
-          console.log(user)
-         })
     }
   }
 
@@ -45,6 +56,7 @@ export class SignInComponent {
     public auth: AuthService,
     private formBuilder: FormBuilder,
     public router: Router,
-    public afAuth:AngularFireAuth
+    public afAuth: AngularFireAuth,
+    public afs: AngularFirestore
   ) {}
 }

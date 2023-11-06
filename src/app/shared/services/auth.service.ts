@@ -17,7 +17,7 @@ export class AuthService {
   static loggedIn(): boolean {
     return !!localStorage.getItem('user');
   }
-  public setUserData(user:any) {
+  public async setUserData(user:any) {
     const userData:User = {
       uid:user.uid,
       email:user.email,
@@ -25,8 +25,7 @@ export class AuthService {
       photoURL:user.photoURL,
       emailVerified:user.emailVerified
     }
-    const userRef:AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
-    return userRef.set(userData,{merge:true});
+    await this.afs.doc(`users/${user.uid}`).set(userData,{merge:true}).then(a=>console.log(a)).catch(err=>console.log(err));
   }
   public sendVerificationEmail() {
     return this.afAuth.currentUser.then((u: any) => {

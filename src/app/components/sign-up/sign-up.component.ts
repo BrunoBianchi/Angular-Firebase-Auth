@@ -17,18 +17,21 @@ export class SignUpComponent {
   });
   public signUp() {
     if (this.profileForm.valid) {
-     this.auth.signUp(
-        this.profileForm.value['email'],
-        this.profileForm.value['password']
-      ).then((result:any)=>{ 
-        localStorage.setItem('user',JSON.stringify(result.user));
-        this.auth.setUserData(result.user);
-        this.auth.sendVerificationEmail();
-        this.router.navigateByUrl('dashboard');
-      }).catch((err:any)=>{ 
-        if(err) this.errorMsg = err.message;
-      })
-
+      this.auth
+        .signUp(
+          this.profileForm.value['email'],
+          this.profileForm.value['password']
+        )
+        .then((result: any) => {
+          localStorage.setItem('user', JSON.stringify(result.user));
+          this.auth.setUserData(result.user).then((a:any) => {
+            this.auth.sendVerificationEmail();
+            this.router.navigateByUrl('dashboard');
+          });
+        })
+        .catch((err: any) => {
+          if (err) this.errorMsg = err.message;
+        });
     }
   }
   constructor(

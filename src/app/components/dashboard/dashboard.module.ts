@@ -4,7 +4,7 @@ import { DashboardComponent } from './dashboard.component';
 import { authGuardsGuard } from 'src/app/shared/guards/auth-guards.guard';
 
 const routes: Routes = [
-  {path:'',component:DashboardComponent,pathMatch:'full'},
+  {path:'',component:DashboardComponent,canActivate:[authGuardsGuard]},
 
 ];
 

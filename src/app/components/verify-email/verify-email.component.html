@@ -1,1 +1,26 @@
-<p>verify-email works!</p>
+<app-nav-component></app-nav-component>
+<div class="container">
+    <div class="row">
+      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div class="card card-signin my-5">
+          <div class="card-body">
+            <h5 class="card-title text-center">Ative sua Conta!</h5>
+              <div class="form-label-group">
+                <p>Verifique seu Email, enviamos um email com o link para ativação de sua conta!</p>
+                <div class="row">
+                    <div class="col-md-7">
+                        <input value="{{user.email}}" type="email" id="email" class="form-control" placeholder="Email address" readonly >
+                    </div>
+                    <div class="col-md-5">
+                        <button class="btn" [ngClass]="{'disable':disable}" (click)="reenviarEmail()">{{btnMsg}}</button>
+                    </div>
+                </div>
+              </div>
+
+        
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>

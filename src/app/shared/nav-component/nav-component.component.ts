@@ -9,7 +9,6 @@ export class NavComponentComponent implements OnInit {
   public user:any;
   ngOnInit(): void {
     this.user =  localStorage.getItem('user')? JSON.parse(localStorage.getItem('user')||""):null;
-    console.log(this.user)
   }
 
 }
