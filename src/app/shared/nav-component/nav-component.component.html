@@ -14,7 +14,7 @@
         </li>
         <li class="nav-item dropdown " *ngIf="user">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
+           <img class="user-logo" src="{{(user.photoUrl)?user.photoUrl: '../../../../../assets/dummyUser.png'}}"> {{(user.name? user.name : "Usuário")}}
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item" href="/dashboard">Dashboard</a></li>

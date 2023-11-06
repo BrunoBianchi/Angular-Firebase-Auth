@@ -1,36 +1,40 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
+import { User } from '../interfaces/user';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
+  constructor(public afs: AngularFirestore, public afAuth: AngularFireAuth) {}
+
   static logout() {
     localStorage.removeItem('user');
   }
-
-  constructor(public afs:AngularFirestore,public afAuth:AngularFireAuth) { }
-  public singIn(email:string,password:string) {
-    return this.afAuth.signInWithEmailAndPassword(email,password);
+  public singIn(email: string, password: string) {
+    return this.afAuth.signInWithEmailAndPassword(email, password);
   }
-  static loggedIn():boolean {
+  static loggedIn(): boolean {
     return !!localStorage.getItem('user');
   }
+  public setUserData(user:any) {
+    const userData:User = {
+      uid:user.uid,
+      email:user.email,
+      name:user.displayName,
+      photoURL:user.photoURL,
+      emailVerified:user.emailVerified
+    }
+    const userRef:AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
+    return userRef.set(userData,{merge:true});
+  }
   public sendVerificationEmail() {
-    return this.afAuth.currentUser.then((u:any)=>{
-      console.log(u);
+    return this.afAuth.currentUser.then((u: any) => {
       u.sendEmailVerification();
-    })
-   }
+    });
+  }
 
-  public signUp(email:string,password:string) {
-    this.afAuth.createUserWithEmailAndPassword(email,password).then((result:any)=>{
-      
-      localStorage.setItem('user',JSON.stringify(result.user));
-      this.sendVerificationEmail();
-      return result.user;
-    }).catch((err:any)=>{
-      if(err) return err.message;
-    })
+  public signUp(email: string, password: string) {
+    return this.afAuth.createUserWithEmailAndPassword(email, password);
   }
 }
