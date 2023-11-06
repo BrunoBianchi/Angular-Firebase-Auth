@@ -4,14 +4,14 @@ import { Router } from '@angular/router';
 export const authGuardsGuard: CanActivateFn = (route, state) => {
   let router = new Router();
   let user = JSON.parse(localStorage.getItem('user')!!);
-  if (user.emailVerified == false) {
+  if (user && user.emailVerified == false) {
     window.location.href = '/verify-email';
     return false;
   }
   if (AuthService.loggedIn()) {
     return true;
   } else {
-    router.navigateByUrl('/sign-in');
+    window.location.href = '/sign-in';
     return false;
   }
 };

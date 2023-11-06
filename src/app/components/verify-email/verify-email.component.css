@@ -34,3 +34,11 @@ input:focus  {
 .container{
     margin-top:70px;
 }
+.msg-sent {
+    text-align: center;
+    color:#3a9e4e;
+    margin-top:10px;
+    padding:6px;
+    border:2px solid rgba(0, 0, 0, 0.13);
+    border-radius:5px;
+}

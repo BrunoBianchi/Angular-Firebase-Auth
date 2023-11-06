@@ -33,6 +33,10 @@ export class SignInComponent {
             .doc(`users/${result.user.uid}`)
             .get()
             .subscribe(async (user) => {
+              if(!user.exists) {
+                this.errorMsg = 'Email ou senha Incorretos!'
+                return;
+              }
               await localStorage.setItem(
                 'user',
                 JSON.stringify({
@@ -43,7 +47,7 @@ export class SignInComponent {
                   emailVerified: user.get('emailVerified'),
                 })
               );
-              return this.router.navigate(['dashboard']);
+              return this.router.navigateByUrl('dashboard');
             });
         })
         .catch((err: any) => {

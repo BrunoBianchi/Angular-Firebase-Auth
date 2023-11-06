@@ -6,6 +6,7 @@ import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { logoutGuardGuard } from './shared/guards/logout-guard.guard';
 import { authGuardsGuard } from './shared/guards/auth-guards.guard';
 import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 
 const routes: Routes = [
   {path:'',component:HomeComponentComponent,pathMatch:'full'},
@@ -13,8 +14,8 @@ const routes: Routes = [
   {path:'sign-up',component:SignUpComponent},
   {path:'logout',pathMatch:'full',component:HomeComponentComponent,canActivate:[logoutGuardGuard]},
   {path:'dashboard',loadChildren:()=>import('./components/dashboard/dashboard.module').then(m=>m.AppRoutingModule)},
-  {path:'verify-email',component:VerifyEmailComponent}
-
+  {path:'verify-email',component:VerifyEmailComponent},
+  {path:'forgot-password',component:ForgotPasswordComponent}
 ];
 
 @NgModule({
